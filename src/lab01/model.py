@@ -1,45 +1,25 @@
 # ЛР-1, транспорт - автобус
 
+from validate import (
+    _validate_capacity,
+    _validate_passenger_count,
+    _validate_route_number,
+    _validate_speed,
+)
+
 class Bus:
     MAX_SPEED = 120  # атрибут класса, макс скорость
 
     def __init__(self, route_number, capacity, current_speed=0, passenger_count=0):
-        self._route_number = self._validate_route_number(route_number)
-        self._capacity = self._validate_capacity(capacity)
-        self._passenger_count = self._validate_passenger_count(passenger_count)
-        self._current_speed = self._validate_speed(current_speed)
+        self._route_number = _validate_route_number(route_number)
+        self._capacity = _validate_capacity(capacity)
+        self._passenger_count = _validate_passenger_count(passenger_count, self._capacity)
+        self._current_speed = _validate_speed(current_speed, self.MAX_SPEED)
         self._state = "in_depot"
-
-    def _validate_route_number(self, value):
-        if type(value) != int:
-            raise TypeError("номер маршрута - целое число")
-        if value < 1 or value > 999:
-            raise ValueError("номер маршрута от 1 до 999")
-        return value
-
-    def _validate_capacity(self, value):
-        if type(value) != int:
-            raise TypeError("вместимость - целое число")
-        if value < 1 or value > 200:
-            raise ValueError("вместимость от 1 до 200")
-        return value
-
-    def _validate_speed(self, value):
-        if type(value) not in (int, float):
-            raise TypeError("скорость - число")
-        v = float(value)
-        if v < 0 or v > self.MAX_SPEED:
-            raise ValueError("скорость от 0 до " + str(self.MAX_SPEED))
-        return round(v, 1)
-
-    def _validate_passenger_count(self, value):
-        if type(value) != int:
-            raise TypeError("кол-во пассажиров - целое число")
-        if value < 0:
-            raise ValueError("пассажиров не может быть меньше 0")
-        if value > self._capacity:
-            raise ValueError("пассажиров больше чем вместимость")
-        return value
+        if self._passenger_count != 0:
+            raise ValueError("в депо пассажиров быть не должно")
+        if self._current_speed != 0:
+            raise ValueError("в депо скорость должна быть 0")
 
     @property
     def route_number(self):
@@ -67,7 +47,10 @@ class Bus:
             raise RuntimeError("в депо скорость 0")
         if self._state == "maintenance":
             raise RuntimeError("на ТО нельзя менять скорость")
-        self._current_speed = self._validate_speed(value)
+        speed = _validate_speed(value, self.MAX_SPEED)
+        if speed < 1:
+            raise ValueError("на маршруте скорость должна быть от 1 до " + str(self.MAX_SPEED))
+        self._current_speed = speed
 
     def __str__(self):
         return "Автобус №%d, мест %d, пассажиров %d, скорость %.1f, %s" % (
@@ -95,11 +78,13 @@ class Bus:
         if self._state == "on_route":
             raise RuntimeError("уже на маршруте")
         self._state = "on_route"
-        self._current_speed = 0
+        self._current_speed = 1
 
     def return_to_depot(self):
         if self._state != "on_route":
             raise RuntimeError("можно только с маршрута")
+        if self._passenger_count > 0:
+            raise RuntimeError("в депо нельзя заезжать с пассажирами")
         self._state = "in_depot"
         self._current_speed = 0
 
@@ -116,8 +101,8 @@ class Bus:
         self._current_speed = 0
 
     def board_passengers(self, count):
-        if self._state == "maintenance":
-            raise RuntimeError("на ТО нельзя сажать")
+        if self._state != "on_route":
+            raise RuntimeError("сажать пассажиров можно только на маршруте")
         if count < 0:
             raise ValueError("кол-во не отрицательное")
         free = self._capacity - self._passenger_count
