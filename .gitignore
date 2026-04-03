@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Packaging / tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# IDE / OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Cursor temp/project files
+.cursor/
+
+# Local environment files
+.env
+.env.*
+
