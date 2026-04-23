@@ -57,6 +57,48 @@ class BusCollection:
     def get_maintenance(self):
         return self.find_by_state("maintenance")
 
+    def filter_by_type(self, cls):
+        """Вернуть новую коллекцию только с объектами данного типа (наследники Bus)"""
+        result = BusCollection()
+        for bus in self._items:
+            if isinstance(bus, cls):
+                result.add(bus)
+        return result
+
+    def filter_by_interface(self, interface_cls):
+        """Вернуть новую коллекцию только с объектами, реализующими интерфейс."""
+        result = BusCollection()
+        for bus in self._items:
+            if isinstance(bus, interface_cls):
+                result.add(bus)
+        return result
+
+    def get_printable(self):
+        """Вернуть объекты, реализующие интерфейс Printable из ЛР-4."""
+        from pathlib import Path
+        import sys
+
+        src_path = Path(__file__).resolve().parents[1]
+        if str(src_path) not in sys.path:
+            sys.path.insert(0, str(src_path))
+
+        from lab04.interfaces import Printable
+
+        return self.filter_by_interface(Printable)
+
+    def get_comparable(self):
+        """Вернуть объекты, реализующие интерфейс Comparable из ЛР-4."""
+        from pathlib import Path
+        import sys
+
+        src_path = Path(__file__).resolve().parents[1]
+        if str(src_path) not in sys.path:
+            sys.path.insert(0, str(src_path))
+
+        from lab04.interfaces import Comparable
+
+        return self.filter_by_interface(Comparable)
+
     def __len__(self):
         return len(self._items)
 
