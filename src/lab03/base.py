@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pathlib import Path
 import sys
 
@@ -7,7 +9,7 @@ LAB02_PATH = Path(__file__).resolve().parents[1] / "lab02"
 if str(LAB02_PATH) not in sys.path:
     sys.path.insert(0, str(LAB02_PATH))
 
-from model import Bus  
+from model import Bus
 
 
 class BusBase(Bus):
@@ -16,5 +18,5 @@ class BusBase(Bus):
     Наследуется от Bus из ЛР-1 и вводит общий интерфейс calculate()
     """
 
-    def calculate(self):
+    def calculate(self) -> float:
         raise NotImplementedError("В дочернем классе нужно реализовать calculate()")

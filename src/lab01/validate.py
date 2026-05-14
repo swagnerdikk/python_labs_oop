@@ -1,4 +1,4 @@
-def _validate_route_number(value):
+def _validate_route_number(value: object) -> int:
     if type(value) != int:
         raise TypeError("номер маршрута - целое число")
     if value < 1 or value > 999:
@@ -6,7 +6,7 @@ def _validate_route_number(value):
     return value
 
 
-def _validate_capacity(value):
+def _validate_capacity(value: object) -> int:
     if type(value) != int:
         raise TypeError("вместимость - целое число")
     if value < 1 or value > 200:
@@ -14,7 +14,7 @@ def _validate_capacity(value):
     return value
 
 
-def _validate_speed(value, max_speed):
+def _validate_speed(value: object, max_speed: float) -> float:
     if type(value) not in (int, float):
         raise TypeError("скорость - число")
     v = float(value)
@@ -23,7 +23,7 @@ def _validate_speed(value, max_speed):
     return round(v, 1)
 
 
-def _validate_passenger_count(value, capacity):
+def _validate_passenger_count(value: object, capacity: int) -> int:
     if type(value) != int:
         raise TypeError("кол-во пассажиров - целое число")
     if value < 0:

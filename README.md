@@ -288,3 +288,26 @@
 ## ![11111](./img/lab05/1.png)
 ## ![22222](./img/lab05/2.png)
 ## ![33333](./img/lab05/3.png)
+
+# ЛР-6 — Generics и typing
+
+## 1. Цель работы
+
+- Аннотации типов, `Generic` / `TypeVar`, второй `TypeVar` для `map`.
+- Структурные протоколы `Displayable` и `Scorable` с `bound=`.
+- Класс `TypedCollection` в `src/lab06/container.py` (интерфейс как у `BusCollection` из ЛР-2 плюс `find` / `filter` / `map`).
+
+## 2. Файлы
+
+- `src/lab06/container.py` — `TypedCollection`, протоколы, вспомогательные функции с ограниченными `TypeVar`.
+- `src/lab06/demo.py` — сценарии для оценки 5.
+- `src/lab06/README.md` — отчёт со структурой по методичке.
+- В ЛР-1 и ЛР-3 добавлены аннотации и методы `display()` / `score()` под протоколы (без наследования от `Protocol`).
+
+## 3. Демонстрация
+
+Подробности и места под скриншоты — в `src/lab06/README.md`. Запуск: из каталога `src/lab06` выполнить `python3 demo.py`.
+
+## ![ЛР-6 сценарии 1–2](./img/lab06/1.png)
+## ![ЛР-6 сценарии 3–4](./img/lab06/2.png)
+## ![ЛР-6 Protocol](./img/lab06/3.png)
