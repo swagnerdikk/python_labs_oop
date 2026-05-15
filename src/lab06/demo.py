@@ -1,5 +1,3 @@
-"""ЛР-6: демонстрация TypedCollection, Generic, Protocol."""
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -23,7 +21,7 @@ from models import CityBus, ExpressBus
 
 
 class Student:
-    """Простая модель для демонстрации TypedCollection[Student] и map (как в методичке)."""
+    
 
     def __init__(self, name: str, gpa: float, year: int) -> None:
         self._name: str = name

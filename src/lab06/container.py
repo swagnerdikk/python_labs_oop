@@ -1,4 +1,4 @@
-"""ЛР-6: Generic-коллекция TypedCollection и структурные протоколы."""
+
 
 from __future__ import annotations
 
